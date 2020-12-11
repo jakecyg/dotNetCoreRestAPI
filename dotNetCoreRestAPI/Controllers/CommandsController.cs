@@ -22,7 +22,7 @@ namespace dotNetCoreRestAPI.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Commands>> GetAllCommands()
         {
-            var commands = _db.GetCommands();
+            var commands = _db.GetAllCommands();
             //return 200 success
             return Ok(commands);
         }

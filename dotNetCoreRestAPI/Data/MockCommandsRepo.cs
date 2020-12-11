@@ -13,7 +13,7 @@ namespace dotNetCoreRestAPI.Data
     {
         public Commands GetCommandById(int id) =>  new Commands { Id = 0, ShortCutTo = "test1" , Command = "command1", Platform = "platform1" };
 
-        public IEnumerable<Commands> GetCommands()
+        public IEnumerable<Commands> GetAllCommands()
         {
             var commands = new List<Commands>
             {

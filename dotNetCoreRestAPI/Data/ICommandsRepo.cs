@@ -12,7 +12,7 @@ namespace dotNetCoreRestAPI.Data
     public interface ICommandsRepo
     {
         //Get all
-        IEnumerable<Commands> GetCommands();
+        IEnumerable<Commands> GetAllCommands();
         //Get one
         Commands GetCommandById(int id);
     }
