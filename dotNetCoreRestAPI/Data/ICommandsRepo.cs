@@ -11,6 +11,9 @@ namespace dotNetCoreRestAPI.Data
     /// </summary>
     interface ICommandsRepo
     {
+        //Get all
         IEnumerable<Commands> GetCommands();
+        //Get one
+        Commands GetCommandById(int id);
     }
 }
