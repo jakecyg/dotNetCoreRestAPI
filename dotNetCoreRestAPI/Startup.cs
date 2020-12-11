@@ -31,7 +31,7 @@ namespace dotNetCoreRestAPI
 
             //Initialize dependency injection
             //Change MockCommandsRepo to actual db source when needed; no change in other parts of the application should be needed.
-            services.AddScoped<ICommandsRepo, MockCommandsRepo>();
+            services.AddScoped<ICommandsRepo, DbRepo>();
 
             //adding db context to be used along with rest of the application
             services.AddDbContext<dotNetCoreRestAPIContext>(option => option.UseSqlServer(Configuration.GetConnectionString("CommandsConnection")));
