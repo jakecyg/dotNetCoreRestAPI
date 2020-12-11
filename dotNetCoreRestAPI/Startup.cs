@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -31,6 +32,9 @@ namespace dotNetCoreRestAPI
             //Initialize dependency injection
             //Change MockCommandsRepo to actual db source when needed; no change in other parts of the application should be needed.
             services.AddScoped<ICommandsRepo, MockCommandsRepo>();
+
+            //adding db context to be used along with rest of the application
+            services.AddDbContext<dotNetCoreRestAPIContext>(option => option.UseSqlServer(Configuration.GetConnectionString("CommandsConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
