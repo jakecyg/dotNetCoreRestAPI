@@ -9,7 +9,7 @@ namespace dotNetCoreRestAPI.Data
     /// <summary>
     /// RestAPI interfaces
     /// </summary>
-    interface ICommandsRepo
+    public interface ICommandsRepo
     {
         //Get all
         IEnumerable<Commands> GetCommands();

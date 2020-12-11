@@ -1,3 +1,4 @@
+using dotNetCoreRestAPI.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -26,6 +27,10 @@ namespace dotNetCoreRestAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            //Initialize dependency injection
+            //Change MockCommandsRepo to actual db source when needed; no change in other parts of the application should be needed.
+            services.AddScoped<ICommandsRepo, MockCommandsRepo>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

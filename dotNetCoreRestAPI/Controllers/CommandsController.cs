@@ -14,18 +14,15 @@ namespace dotNetCoreRestAPI.Controllers
     [Route("api/[controller]")]
     public class CommandsController : Controller
     {
-        private readonly MockCommandsRepo _repo = new MockCommandsRepo();
-
-        //public IActionResult Index()
-        //{
-
-        //}
+        private readonly ICommandsRepo _db;
+        //Inject dependency
+        public CommandsController(ICommandsRepo dn) => _db = dn;
 
         //respond to HttpGet requests with uri: api/commands
         [HttpGet]
         public ActionResult<IEnumerable<Commands>> GetAllCommands()
         {
-            var commands = _repo.GetCommands();
+            var commands = _db.GetCommands();
             //return 200 success
             return Ok(commands);
         }
@@ -34,7 +31,7 @@ namespace dotNetCoreRestAPI.Controllers
         [HttpGet("{id}")]
         public ActionResult<IEnumerable<Commands>> GetComandById(int id)
         {
-            var command = _repo.GetCommandById(id);
+            var command = _db.GetCommandById(id);
             return Ok(command);
 
         }
