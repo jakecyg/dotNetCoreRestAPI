@@ -11,9 +11,12 @@ namespace dotNetCoreRestAPI.Data
     /// </summary>
     public interface ICommandsRepo
     {
+        bool SaveChanges();
         //Get all
         IEnumerable<Commands> GetAllCommands();
         //Get one
         Commands GetCommandById(int id);
+        //Create command
+        void CreateCommand(Commands cmd);
     }
 }

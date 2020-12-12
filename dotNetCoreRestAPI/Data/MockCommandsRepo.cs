@@ -23,5 +23,15 @@ namespace dotNetCoreRestAPI.Data
             };
             return commands;
         }
+
+        public bool SaveChanges()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CreateCommand(Commands cmd)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

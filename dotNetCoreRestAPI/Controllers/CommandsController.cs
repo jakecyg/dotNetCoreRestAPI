@@ -43,5 +43,6 @@ namespace dotNetCoreRestAPI.Controllers
             if (command == null) return NotFound();
             return Ok(_mapper.Map<CommandReadDTO>(command));
         }
+
     }
 }

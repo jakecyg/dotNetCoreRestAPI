@@ -11,7 +11,15 @@ namespace dotNetCoreRestAPI.Data
         private readonly dotNetCoreRestAPIContext _context;
         //db context dependency injection
         public DbRepo(dotNetCoreRestAPIContext context) => _context = context;
+
         public IEnumerable<Commands> GetAllCommands() => _context.Commands.ToList();
         public Commands GetCommandById(int id) => _context.Commands.FirstOrDefault(x => x.Id == id);
+        public void CreateCommand(Commands cmd)
+        {
+            if (cmd == null) throw new ArgumentNullException(nameof(cmd));
+            _context.Add(cmd);
+        }
+
+        public bool SaveChanges() => _context.SaveChanges() >= 0;
     }
 }
