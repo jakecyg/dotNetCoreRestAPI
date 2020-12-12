@@ -59,7 +59,7 @@ namespace dotNetCoreRestAPI.Controllers
         }
 
         //responds to the put requests with uri: api/commands/id
-        //this is inefficient; client must provide the whole object to perform update/ prone to error
+        //this is inefficient; client must provide the whole object to perform update- prone to error
         [HttpPut("{id}")]
         public ActionResult UpdateCommand(int id, CommandUpdateDTO cmdUpdateDTO)
         {
