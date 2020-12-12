@@ -36,7 +36,7 @@ namespace dotNetCoreRestAPI.Controllers
         }
 
         //respond to get requests with uri: api/commands/id
-        [HttpGet("{id}", Name= "GetCommandById")]
+        [HttpGet("{id}", Name = "GetCommandById")]
         public ActionResult<CommandReadDTO> GetCommandById(int id)
         {
             var command = _db.GetCommandById(id);
@@ -56,6 +56,24 @@ namespace dotNetCoreRestAPI.Controllers
             var commandReadDTO = _mapper.Map<CommandReadDTO>(command);
             //return Ok(_mapper.Map<CommandReadDTO>(command));
             return CreatedAtRoute(nameof(GetCommandById), new { Id = commandReadDTO.Id }, commandReadDTO);
-            }
+        }
+
+        //responds to the put requests with uri: api/commands/id
+        //this is inefficient; client must provide the whole object to perform update/ prone to error
+        [HttpPut("{id}")]
+        public ActionResult UpdateCommand(int id, CommandUpdateDTO cmdUpdateDTO)
+        {
+            var commandToUpdate = _db.GetCommandById(id);
+            if (commandToUpdate == null) return NotFound();
+
+            //takes care of updating- hence empty interface implementation
+            _mapper.Map(cmdUpdateDTO, commandToUpdate);
+
+            //just in case later in future you need more specific update implementation
+            _db.UpdateCommand(commandToUpdate);
+            _db.SaveChanges();
+
+            return NoContent();
+        }
     }
 }

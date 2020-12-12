@@ -33,5 +33,10 @@ namespace dotNetCoreRestAPI.Data
         {
             throw new NotImplementedException();
         }
+
+        public void UpdateCommand(Commands cmd)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -18,5 +18,7 @@ namespace dotNetCoreRestAPI.Data
         Commands GetCommandById(int id);
         //Create command
         void CreateCommand(Commands cmd);
+        //Update command
+        void UpdateCommand(Commands cmd);
     }
 }
