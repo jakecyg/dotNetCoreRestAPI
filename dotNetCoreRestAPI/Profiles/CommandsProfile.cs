@@ -18,8 +18,11 @@ namespace dotNetCoreRestAPI.Profiles
             //for create- convert dto to domain model
             CreateMap<CommandCreateDTO, Commands>();
 
-            //for update
+            //for update(PUT)
             CreateMap<CommandUpdateDTO, Commands>();
+
+            ////for update(PATCH)
+            CreateMap<Commands, CommandUpdateDTO>();
         }
     }
 }

@@ -2,6 +2,7 @@
 using dotNetCoreRestAPI.Data;
 using dotNetCoreRestAPI.DTOs;
 using dotNetCoreRestAPI.Models;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -70,6 +71,26 @@ namespace dotNetCoreRestAPI.Controllers
             _mapper.Map(cmdUpdateDTO, commandToUpdate);
 
             //just in case later in future you need more specific update implementation
+            _db.UpdateCommand(commandToUpdate);
+            _db.SaveChanges();
+
+            return NoContent();
+        }
+
+        //responds to the patch requests with uri: api/commands/id
+        [HttpPatch("{id}")]
+        public ActionResult PartialUpdateCommand(int id, JsonPatchDocument<CommandUpdateDTO> patchDoc)
+        {
+            var commandToUpdate = _db.GetCommandById(id);
+            if (commandToUpdate == null) return NotFound();
+
+            var commandToPatch = _mapper.Map<CommandUpdateDTO>(commandToUpdate);
+            patchDoc.ApplyTo(commandToPatch, ModelState);
+
+            if (!TryValidateModel(commandToPatch)) return ValidationProblem(ModelState);
+
+            _mapper.Map(commandToPatch, commandToUpdate);
+
             _db.UpdateCommand(commandToUpdate);
             _db.SaveChanges();
 
