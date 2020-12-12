@@ -1,4 +1,6 @@
-﻿using dotNetCoreRestAPI.Data;
+﻿using AutoMapper;
+using dotNetCoreRestAPI.Data;
+using dotNetCoreRestAPI.DTOs;
 using dotNetCoreRestAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -15,8 +17,14 @@ namespace dotNetCoreRestAPI.Controllers
     public class CommandsController : Controller
     {
         private readonly ICommandsRepo _db;
+        private readonly IMapper _mapper;
+
         //Inject dependency
-        public CommandsController(ICommandsRepo dn) => _db = dn;
+        public CommandsController(ICommandsRepo dn, IMapper mapper)
+        {
+            _db = dn;
+            _mapper = mapper;
+        }
 
         //respond to HttpGet requests with uri: api/commands
         [HttpGet]
@@ -29,11 +37,11 @@ namespace dotNetCoreRestAPI.Controllers
 
         //respond to get requests with uri: api/commands/id
         [HttpGet("{id}")]
-        public ActionResult<IEnumerable<Commands>> GetComandById(int id)
+        public ActionResult<IEnumerable<CommandReadDTO>> GetComandById(int id)
         {
             var command = _db.GetCommandById(id);
-            return Ok(command);
-
+            if (command == null) return NotFound();
+            return Ok(_mapper.Map<CommandReadDTO>(command));
         }
     }
 }
