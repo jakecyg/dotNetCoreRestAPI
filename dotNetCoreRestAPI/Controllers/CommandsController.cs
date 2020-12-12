@@ -36,8 +36,8 @@ namespace dotNetCoreRestAPI.Controllers
         }
 
         //respond to get requests with uri: api/commands/id
-        [HttpGet("{id}")]
-        public ActionResult<CommandReadDTO> GetComandById(int id)
+        [HttpGet("{id}", Name= "GetCommandById")]
+        public ActionResult<CommandReadDTO> GetCommandById(int id)
         {
             var command = _db.GetCommandById(id);
             if (command == null) return NotFound();
@@ -53,7 +53,9 @@ namespace dotNetCoreRestAPI.Controllers
             var command = _mapper.Map<Commands>(cmdCreateDTO);
             _db.CreateCommand(command);
             _db.SaveChanges();
-            return Ok(command);
-        }
+            var commandReadDTO = _mapper.Map<CommandReadDTO>(command);
+            //return Ok(_mapper.Map<CommandReadDTO>(command));
+            return CreatedAtRoute(nameof(GetCommandById), new { Id = commandReadDTO.Id }, commandReadDTO);
+            }
     }
 }
