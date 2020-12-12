@@ -96,5 +96,16 @@ namespace dotNetCoreRestAPI.Controllers
 
             return NoContent();
         }
+
+        //responds to the delete requests with uri: api/commands/id
+        [HttpDelete("{id}")]
+        public ActionResult DeleteCommand(int id)
+        {
+            var commandToDelete = _db.GetCommandById(id);
+            if (commandToDelete == null) return NotFound();
+            _db.DeleteCommand(commandToDelete);
+            _db.SaveChanges();
+            return NoContent();
+        }
     }
 }

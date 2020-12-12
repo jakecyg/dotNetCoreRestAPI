@@ -38,5 +38,10 @@ namespace dotNetCoreRestAPI.Data
         {
             throw new NotImplementedException();
         }
+
+        public void DeleteCommand(Commands cmd)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

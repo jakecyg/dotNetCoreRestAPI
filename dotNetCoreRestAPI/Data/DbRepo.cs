@@ -19,13 +19,16 @@ namespace dotNetCoreRestAPI.Data
             if (cmd == null) throw new ArgumentNullException(nameof(cmd));
             _context.Add(cmd);
         }
-
-
         public void UpdateCommand(Commands cmd)
         {
             if (cmd == null) throw new ArgumentNullException(nameof(cmd));
         }
         public bool SaveChanges() => _context.SaveChanges() >= 0;
 
+        public void DeleteCommand(Commands cmd)
+        {
+            if (cmd == null) throw new ArgumentNullException(nameof(cmd));
+            _context.Commands.Remove(cmd);
+        }
     }
 }

@@ -20,5 +20,7 @@ namespace dotNetCoreRestAPI.Data
         void CreateCommand(Commands cmd);
         //Update command
         void UpdateCommand(Commands cmd);
+        //Delete command
+        void DeleteCommand(Commands cmd);
     }
 }
