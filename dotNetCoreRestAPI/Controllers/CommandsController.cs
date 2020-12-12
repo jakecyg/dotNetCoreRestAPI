@@ -28,11 +28,11 @@ namespace dotNetCoreRestAPI.Controllers
 
         //respond to HttpGet requests with uri: api/commands
         [HttpGet]
-        public ActionResult<IEnumerable<Commands>> GetAllCommands()
+        public ActionResult<IEnumerable<CommandReadDTO>> GetAllCommands()
         {
             var commands = _db.GetAllCommands();
             //return 200 success
-            return Ok(commands);
+            return Ok(_mapper.Map<IEnumerable<CommandReadDTO>>(commands));
         }
 
         //respond to get requests with uri: api/commands/id
