@@ -1,3 +1,4 @@
+using AutoMapper;
 using dotNetCoreRestAPI.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -35,6 +36,7 @@ namespace dotNetCoreRestAPI
 
             //adding db context to be used along with rest of the application
             services.AddDbContext<dotNetCoreRestAPIContext>(option => option.UseSqlServer(Configuration.GetConnectionString("CommandsConnection")));
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
