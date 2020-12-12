@@ -10,6 +10,13 @@ namespace dotNetCoreRestAPI.Profiles
 {
     public class CommandsProfile : Profile
     {
-        public CommandsProfile() => CreateMap<Commands, CommandReadDTO>();
+        public CommandsProfile()
+        {
+            //for read- convert domain model to dto
+            CreateMap<Commands, CommandReadDTO>();
+
+            //for create- convert dto to domain model
+            CreateMap<CommandCreateDTO, Commands>();
+        }
     }
 }

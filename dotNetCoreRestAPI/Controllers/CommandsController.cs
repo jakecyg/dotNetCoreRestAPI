@@ -37,12 +37,23 @@ namespace dotNetCoreRestAPI.Controllers
 
         //respond to get requests with uri: api/commands/id
         [HttpGet("{id}")]
-        public ActionResult<IEnumerable<CommandReadDTO>> GetComandById(int id)
+        public ActionResult<CommandReadDTO> GetComandById(int id)
         {
             var command = _db.GetCommandById(id);
             if (command == null) return NotFound();
             return Ok(_mapper.Map<CommandReadDTO>(command));
         }
 
+        //responds to post requests with uri: api/commands
+        //returns the created object
+        [HttpPost]
+        public ActionResult<CommandReadDTO> CreateCommand(CommandCreateDTO cmdCreateDTO)
+        {
+            if (cmdCreateDTO == null) throw new ArgumentNullException(nameof(cmdCreateDTO));
+            var command = _mapper.Map<Commands>(cmdCreateDTO);
+            _db.CreateCommand(command);
+            _db.SaveChanges();
+            return Ok(command);
+        }
     }
 }
