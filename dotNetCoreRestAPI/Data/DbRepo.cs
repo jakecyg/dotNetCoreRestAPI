@@ -1,4 +1,5 @@
 ﻿using dotNetCoreRestAPI.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,23 +13,34 @@ namespace dotNetCoreRestAPI.Data
         //db context dependency injection
         public DbRepo(dotNetCoreRestAPIContext context) => _context = context;
 
-        public IEnumerable<Commands> GetAllCommands() => _context.Commands.ToList();
-        public Commands GetCommandById(int id) => _context.Commands.FirstOrDefault(x => x.Id == id);
-        public void CreateCommand(Commands cmd)
-        {
-            if (cmd == null) throw new ArgumentNullException(nameof(cmd));
-            _context.Add(cmd);
-        }
-        public void UpdateCommand(Commands cmd)
-        {
-            if (cmd == null) throw new ArgumentNullException(nameof(cmd));
-        }
-        public bool SaveChanges() => _context.SaveChanges() >= 0;
+        //public IEnumerable<Commands> GetAllCommands() => _context.Commands.ToList();
+        public async Task<IEnumerable<Commands>> GetAllCommandsAsync() => await _context.Commands.ToListAsync();
 
-        public void DeleteCommand(Commands cmd)
+        public async Task<Commands> GetCommandByIdAsync(int id) => await _context.Commands.FirstOrDefaultAsync(x => x.Id == id);
+        public async Task<bool> CreateCommandAsync(Commands cmd)
+        {
+            if (cmd == null) throw new ArgumentNullException(nameof(cmd));
+            await _context.Commands.AddAsync(cmd);
+            var created = await _context.SaveChangesAsync();
+            return created > 0;
+        }
+        public async Task<bool> UpdateCommandAsync(Commands cmd)
+        {
+            if (cmd == null) throw new ArgumentNullException(nameof(cmd));
+            _context.Commands.Update(cmd);
+            var updated = await _context.SaveChangesAsync();
+            return updated > 0;
+        }
+
+        public async Task<bool> DeleteCommandAsync(Commands cmd)
         {
             if (cmd == null) throw new ArgumentNullException(nameof(cmd));
             _context.Commands.Remove(cmd);
+            var deleted = await _context.SaveChangesAsync();
+            return deleted > 0;
+
         }
+        public async Task<bool> SaveChangesAsync() => await _context.SaveChangesAsync() >= 0;
+
     }
 }

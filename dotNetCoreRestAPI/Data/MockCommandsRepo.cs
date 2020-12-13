@@ -43,5 +43,35 @@ namespace dotNetCoreRestAPI.Data
         {
             throw new NotImplementedException();
         }
+
+        public Task<bool> SaveChangesAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<Commands>> GetAllCommandsAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Commands> GetCommandByIdAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> CreateCommandAsync(Commands cmd)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> UpdateCommandAsync(Commands cmd)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> DeleteCommandAsync(Commands cmd)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

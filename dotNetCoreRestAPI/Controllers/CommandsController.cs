@@ -29,18 +29,18 @@ namespace dotNetCoreRestAPI.Controllers
 
         //respond to HttpGet requests with uri: api/commands
         [HttpGet]
-        public ActionResult<IEnumerable<CommandReadDTO>> GetAllCommands()
+        public async Task<ActionResult<IEnumerable<CommandReadDTO>>> GetAllCommands()
         {
-            var commands = _db.GetAllCommands();
+            var commands = await _db.GetAllCommandsAsync();
             //return 200 success
             return Ok(_mapper.Map<IEnumerable<CommandReadDTO>>(commands));
         }
 
         //respond to get requests with uri: api/commands/id
         [HttpGet("{id}", Name = "GetCommandById")]
-        public ActionResult<CommandReadDTO> GetCommandById(int id)
+        public async Task<ActionResult<CommandReadDTO>> GetCommandById(int id)
         {
-            var command = _db.GetCommandById(id);
+            var command = await _db.GetCommandByIdAsync(id);
             if (command == null) return NotFound();
             return Ok(_mapper.Map<CommandReadDTO>(command));
         }
@@ -48,12 +48,12 @@ namespace dotNetCoreRestAPI.Controllers
         //responds to post requests with uri: api/commands
         //returns the created object
         [HttpPost]
-        public ActionResult<CommandReadDTO> CreateCommand(CommandCreateDTO cmdCreateDTO)
+        public async Task<ActionResult<CommandReadDTO>> CreateCommand(CommandCreateDTO cmdCreateDTO)
         {
             if (cmdCreateDTO == null) throw new ArgumentNullException(nameof(cmdCreateDTO));
             var command = _mapper.Map<Commands>(cmdCreateDTO);
-            _db.CreateCommand(command);
-            _db.SaveChanges();
+            await _db.CreateCommandAsync(command);
+            await _db.SaveChangesAsync();
             var commandReadDTO = _mapper.Map<CommandReadDTO>(command);
             //return Ok(_mapper.Map<CommandReadDTO>(command));
             return CreatedAtRoute(nameof(GetCommandById), new { Id = commandReadDTO.Id }, commandReadDTO);
@@ -62,26 +62,26 @@ namespace dotNetCoreRestAPI.Controllers
         //responds to the put requests with uri: api/commands/id
         //this is inefficient; client must provide the whole object to perform update- prone to error
         [HttpPut("{id}")]
-        public ActionResult UpdateCommand(int id, CommandUpdateDTO cmdUpdateDTO)
+        public async Task<ActionResult> UpdateCommand(int id, CommandUpdateDTO cmdUpdateDTO)
         {
-            var commandToUpdate = _db.GetCommandById(id);
+            var commandToUpdate = await _db.GetCommandByIdAsync(id);
             if (commandToUpdate == null) return NotFound();
 
             //takes care of updating- hence empty interface implementation
             _mapper.Map(cmdUpdateDTO, commandToUpdate);
 
             //just in case later in future you need more specific update implementation
-            _db.UpdateCommand(commandToUpdate);
-            _db.SaveChanges();
+            await _db.UpdateCommandAsync(commandToUpdate);
+            await _db.SaveChangesAsync();
 
             return NoContent();
         }
 
         //responds to the patch requests with uri: api/commands/id
         [HttpPatch("{id}")]
-        public ActionResult PartialUpdateCommand(int id, JsonPatchDocument<CommandUpdateDTO> patchDoc)
+        public async Task<ActionResult> PartialUpdateCommand(int id, JsonPatchDocument<CommandUpdateDTO> patchDoc)
         {
-            var commandToUpdate = _db.GetCommandById(id);
+            var commandToUpdate = await _db.GetCommandByIdAsync(id);
             if (commandToUpdate == null) return NotFound();
 
             var commandToPatch = _mapper.Map<CommandUpdateDTO>(commandToUpdate);
@@ -91,20 +91,20 @@ namespace dotNetCoreRestAPI.Controllers
 
             _mapper.Map(commandToPatch, commandToUpdate);
 
-            _db.UpdateCommand(commandToUpdate);
-            _db.SaveChanges();
+            await _db.UpdateCommandAsync(commandToUpdate);
+            await _db.SaveChangesAsync();
 
             return NoContent();
         }
 
         //responds to the delete requests with uri: api/commands/id
         [HttpDelete("{id}")]
-        public ActionResult DeleteCommand(int id)
+        public async Task<ActionResult> DeleteCommand(int id)
         {
-            var commandToDelete = _db.GetCommandById(id);
+            var commandToDelete = await _db.GetCommandByIdAsync(id);
             if (commandToDelete == null) return NotFound();
-            _db.DeleteCommand(commandToDelete);
-            _db.SaveChanges();
+            await _db.DeleteCommandAsync(commandToDelete);
+            await _db.SaveChangesAsync();
             return NoContent();
         }
     }

@@ -11,16 +11,16 @@ namespace dotNetCoreRestAPI.Data
     /// </summary>
     public interface ICommandsRepo
     {
-        bool SaveChanges();
+        Task<bool> SaveChangesAsync();
         //Get all
-        IEnumerable<Commands> GetAllCommands();
+        Task<IEnumerable<Commands>> GetAllCommandsAsync();
         //Get one
-        Commands GetCommandById(int id);
+        Task<Commands> GetCommandByIdAsync(int id);
         //Create command
-        void CreateCommand(Commands cmd);
+        Task<bool> CreateCommandAsync(Commands cmd);
         //Update command
-        void UpdateCommand(Commands cmd);
+        Task<bool> UpdateCommandAsync(Commands cmd);
         //Delete command
-        void DeleteCommand(Commands cmd);
+        Task<bool> DeleteCommandAsync(Commands cmd);
     }
 }
